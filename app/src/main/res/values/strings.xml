@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pixel Gesture</string>
+    <string name="accessibility_description">Recognizes configured edge and hardware gestures to run system actions. It does not read screen content or use the network.</string>
+    <string name="subtitle">Turn Pixel edges and hardware keys into your action layer</string>
+    <string name="service_status_title">Service status</string>
+    <string name="checking">Checking…</string>
+    <string name="open_accessibility_settings">Open accessibility settings</string>
+    <string name="manage_accessibility_service">Manage accessibility service</string>
+    <string name="open_app_details">Cannot enable it? Open app details</string>
+    <string name="restricted_settings_help">If Android shows “Restricted settings,” open App details, tap the top-right menu, allow restricted settings, then return and enable the service. The app does not read screen content or use the network.</string>
+    <string name="service_enabled">Enabled · Gesture zones are running</string>
+    <string name="service_disabled">Disabled · Enable Pixel Gesture in system settings</string>
+    <string name="language_title">Language</string>
+    <string name="language_description">The default language is English. This selection covers all in-app labels, actions and prompts.</string>
+    <string name="language_english">English</string>
+    <string name="language_chinese">简体中文</string>
+    <string name="master_title">Gesture engine</string>
+    <string name="master_description">Pause every gesture without losing any bindings.</string>
+    <string name="master_switch">Enable all configured gestures</string>
+    <string name="section_edge_title">Core edge gestures</string>
+    <string name="section_edge_description">Safe defaults only enable left and right inward swipes for Back. Enable other gestures as needed.</string>
+    <string name="section_advanced_title">Advanced gestures</string>
+    <string name="section_advanced_description">Disabled by default. Diagonal gestures require both horizontal and vertical travel to reduce accidental triggers.</string>
+    <string name="section_top_title">Top-corner gestures</string>
+    <string name="section_top_description">Disabled by default. The zones sit below the status bar and may overlap top app controls.</string>
+    <string name="section_hardware_title">Hardware triggers</string>
+    <string name="section_hardware_description">Disabled by default. An enabled single-volume-key gesture takes priority over normal volume adjustment for that key.</string>
+    <string name="section_tuning_title">Behavior and maintenance</string>
+    <string name="section_tuning_description">A wider zone is easier to trigger but can overlap native edge navigation.</string>
+    <string name="show_section">Show</string>
+    <string name="hide_section">Hide</string>
+    <string name="edge_width_format">Edge width: %1$d dp</string>
+    <string name="haptic_feedback">Light haptic feedback after an action</string>
+    <string name="reset_title">Safe reset</string>
+    <string name="reset_description">Restore safe defaults while keeping the selected language.</string>
+    <string name="reset_button">Restore safe defaults</string>
+    <string name="reset_confirm_title">Reset gesture settings?</string>
+    <string name="reset_confirm_message">All gesture actions and app bindings will be reset. Only left and right inward swipes for Back will remain enabled.</string>
+    <string name="reset_confirm">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset_done">Safe defaults restored</string>
+    <string name="footer">Pixel Gesture 0.6.0 · Local-only · Android 11+\n36 gesture triggers · Advanced groups load only when opened</string>
+    <string name="choose_app">Choose an app</string>
+    <string name="loading_apps">Loading apps…</string>
+    <string name="selected_app_format">Selected: %1$s · Tap to change</string>
+    <string name="selected_app_unavailable">Selected app unavailable · Tap to replace</string>
+    <string name="no_launchable_apps">No launchable apps found</string>
+    <string name="choose_launchable_app">Choose an app to open</string>
+    <string name="choose_app_first">Choose an available app in Pixel Gesture first</string>
+    <string name="action_none">Do nothing</string><string name="action_back">Back</string><string name="action_home">Home</string>
+    <string name="action_recents">Recent apps</string><string name="action_notifications">Notifications</string><string name="action_quick_settings">Quick settings</string>
+    <string name="action_screenshot">Screenshot</string><string name="action_lock">Lock screen</string><string name="action_power_dialog">Power menu</string>
+    <string name="action_camera">Open camera</string><string name="action_open_app">Open app</string><string name="action_settings">System settings</string>
+    <string-array name="action_labels"><item>@string/action_none</item><item>@string/action_back</item><item>@string/action_home</item><item>@string/action_recents</item><item>@string/action_notifications</item><item>@string/action_quick_settings</item><item>@string/action_screenshot</item><item>@string/action_lock</item><item>@string/action_power_dialog</item><item>@string/action_camera</item><item>@string/action_open_app</item><item>@string/action_settings</item></string-array>
+    <string name="g_left_in">Left edge inward swipe</string><string name="d_left_in">Swipe right from the left edge</string>
+    <string name="g_left_up">Left edge swipe up</string><string name="d_left_up">Swipe up along the left edge</string>
+    <string name="g_left_down">Left edge swipe down</string><string name="d_left_down">Swipe down along the left edge</string>
+    <string name="g_left_double">Left edge double tap</string><string name="d_left_double">Quickly tap the left edge twice</string>
+    <string name="g_left_triple">Left edge triple tap</string><string name="d_left_triple">Quickly tap the left edge three times</string>
+    <string name="g_left_long">Left edge long press</string><string name="d_left_long">Hold the left edge for about 0.55 seconds</string>
+    <string name="g_left_in_up">Left edge diagonal up</string><string name="d_left_in_up">Swipe toward the upper-right from the left edge</string>
+    <string name="g_left_in_down">Left edge diagonal down</string><string name="d_left_in_down">Swipe toward the lower-right from the left edge</string>
+    <string name="g_right_in">Right edge inward swipe</string><string name="d_right_in">Swipe left from the right edge</string>
+    <string name="g_right_up">Right edge swipe up</string><string name="d_right_up">Swipe up along the right edge</string>
+    <string name="g_right_down">Right edge swipe down</string><string name="d_right_down">Swipe down along the right edge</string>
+    <string name="g_right_double">Right edge double tap</string><string name="d_right_double">Quickly tap the right edge twice</string>
+    <string name="g_right_triple">Right edge triple tap</string><string name="d_right_triple">Quickly tap the right edge three times</string>
+    <string name="g_right_long">Right edge long press</string><string name="d_right_long">Hold the right edge for about 0.55 seconds</string>
+    <string name="g_right_in_up">Right edge diagonal up</string><string name="d_right_in_up">Swipe toward the upper-left from the right edge</string>
+    <string name="g_right_in_down">Right edge diagonal down</string><string name="d_right_in_down">Swipe toward the lower-left from the right edge</string>
+    <string name="g_bottom_up">Bottom edge swipe up</string><string name="d_bottom_up">Swipe up from the bottom gesture zone</string>
+    <string name="g_bottom_left">Bottom edge swipe left</string><string name="d_bottom_left">Swipe left from the bottom gesture zone</string>
+    <string name="g_bottom_right">Bottom edge swipe right</string><string name="d_bottom_right">Swipe right from the bottom gesture zone</string>
+    <string name="g_bottom_up_left">Bottom diagonal up-left</string><string name="d_bottom_up_left">Swipe toward the upper-left from the bottom zone</string>
+    <string name="g_bottom_up_right">Bottom diagonal up-right</string><string name="d_bottom_up_right">Swipe toward the upper-right from the bottom zone</string>
+    <string name="g_bottom_long">Bottom edge long press</string><string name="d_bottom_long">Hold the bottom zone for about 0.55 seconds</string>
+    <string name="g_bottom_double">Bottom edge double tap</string><string name="d_bottom_double">Quickly tap the bottom zone twice</string>
+    <string name="g_bottom_triple">Bottom edge triple tap</string><string name="d_bottom_triple">Quickly tap the bottom zone three times</string>
+    <string name="g_top_left_down">Top-left swipe down</string><string name="d_top_left_down">Swipe down from below the top-left status bar</string>
+    <string name="g_top_left_double">Top-left double tap</string><string name="d_top_left_double">Quickly tap the top-left zone twice</string>
+    <string name="g_top_left_long">Top-left long press</string><string name="d_top_left_long">Hold the top-left zone for about 0.55 seconds</string>
+    <string name="g_top_right_down">Top-right swipe down</string><string name="d_top_right_down">Swipe down from below the top-right status bar</string>
+    <string name="g_top_right_double">Top-right double tap</string><string name="d_top_right_double">Quickly tap the top-right zone twice</string>
+    <string name="g_top_right_long">Top-right long press</string><string name="d_top_right_long">Hold the top-right zone for about 0.55 seconds</string>
+    <string name="g_shake">Shake device</string><string name="d_shake">Shake the Pixel to run an action</string>
+    <string name="g_volume_chord">Press both volume keys</string><string name="d_volume_chord">Press Volume Up and Down within about 0.5 seconds</string>
+    <string name="g_volume_up_double">Double-press Volume Up</string><string name="d_volume_up_double">Quickly press Volume Up twice</string>
+    <string name="g_volume_down_double">Double-press Volume Down</string><string name="d_volume_down_double">Quickly press Volume Down twice</string>
+    <string name="g_volume_up_long">Long-press Volume Up</string><string name="d_volume_up_long">Hold Volume Up for about 0.65 seconds</string>
+    <string name="g_volume_down_long">Long-press Volume Down</string><string name="d_volume_down_long">Hold Volume Down for about 0.65 seconds</string>
+</resources>

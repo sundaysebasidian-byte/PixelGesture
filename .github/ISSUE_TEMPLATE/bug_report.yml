@@ -1,0 +1,59 @@
+name: Bug report
+description: Report a reproducible Pixel Gesture problem
+title: "[Bug]: "
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include signing keys, credentials, or personal data. Use private vulnerability reporting for security issues.
+  - type: input
+    id: version
+    attributes:
+      label: Pixel Gesture version
+      placeholder: 0.6.0
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and Android version
+      placeholder: Pixel 8, Android 17 build ...
+    validations:
+      required: true
+  - type: dropdown
+    id: navigation
+    attributes:
+      label: Navigation mode
+      options:
+        - Gesture navigation
+        - Three-button navigation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Gesture configuration
+      description: List the trigger, assigned action, edge width, and related enabled gestures.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      placeholder: "1. Enable ...\n2. Perform ...\n3. Observe ..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I tested the latest release and searched existing issues.
+          required: true

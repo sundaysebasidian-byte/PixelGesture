@@ -1,0 +1,43 @@
+plugins {
+    id "com.android.application" version "8.6.1" apply false
+}
+
+tasks.register("verifyTranslations") {
+    group = "verification"
+    description = "Checks English and Simplified Chinese resource parity and Java string hygiene."
+
+    def englishFile = file("app/src/main/res/values/strings.xml")
+    def chineseFile = file("app/src/main/res/values-zh-rCN/strings.xml")
+    inputs.files(englishFile, chineseFile)
+    inputs.files(fileTree("app/src/main/java") { include "**/*.java" })
+
+    doLast {
+        def resourceNames = { File resourceFile ->
+            def resources = new XmlSlurper(false, false).parse(resourceFile)
+            resources.children()
+                    .findAll { node -> node.name() in ["string", "string-array", "plurals"] }
+                    .collect { node -> node.@name.text() }
+                    .toSet()
+        }
+
+        def english = resourceNames(englishFile)
+        def chinese = resourceNames(chineseFile)
+        def missingChinese = english - chinese
+        def extraChinese = chinese - english
+        if (!missingChinese.isEmpty() || !extraChinese.isEmpty()) {
+            throw new GradleException("Translation resources differ. Missing zh-CN: ${missingChinese}; extra zh-CN: ${extraChinese}")
+        }
+
+        def hardcodedChinese = []
+        fileTree("app/src/main/java") { include "**/*.java" }.each { sourceFile ->
+            sourceFile.eachLine { line, number ->
+                if (line ==~ /.*[\u3400-\u9FFF].*/) {
+                    hardcodedChinese << "${sourceFile}:${number}"
+                }
+            }
+        }
+        if (!hardcodedChinese.isEmpty()) {
+            throw new GradleException("Hard-coded Chinese text found in Java: ${hardcodedChinese}")
+        }
+    }
+}

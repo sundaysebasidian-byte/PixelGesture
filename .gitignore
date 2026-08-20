@@ -1,0 +1,29 @@
+# Android Studio and IntelliJ IDEA
+.idea/
+*.iml
+
+# Gradle and Android build output
+.gradle/
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Local SDK configuration
+local.properties
+
+# Signing material and release sidecars
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+*.idsig
+
+# Binary release artifacts belong in GitHub Releases
+*.apk
+*.aab
+
+# Operating-system files
+.DS_Store
+Thumbs.db
