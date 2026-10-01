@@ -11,6 +11,7 @@ captures/
 
 # Local SDK configuration
 local.properties
+rc-test.properties
 
 # Signing material and release sidecars
 *.jks

@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pixel Gesture</string>
+    <string name="app_name">PixelGesture NextGen Dev</string>
     <string name="accessibility_description">Recognizes configured edge and hardware gestures to run system actions. It does not read screen content or use the network.</string>
-    <string name="subtitle">Turn Pixel edges and hardware keys into your action layer</string>
-    <string name="service_status_title">Service status</string>
+
+
     <string name="checking">Checking…</string>
-    <string name="open_accessibility_settings">Open accessibility settings</string>
-    <string name="manage_accessibility_service">Manage accessibility service</string>
+
+
     <string name="open_app_details">Cannot enable it? Open app details</string>
     <string name="restricted_settings_help">If Android shows “Restricted settings,” open App details, tap the top-right menu, allow restricted settings, then return and enable the service. The app does not read screen content or use the network.</string>
-    <string name="service_enabled">Enabled · Gesture zones are running</string>
-    <string name="service_disabled">Disabled · Enable Pixel Gesture in system settings</string>
+
+
+
     <string name="language_title">Language</string>
     <string name="language_description">The default language is English. This selection covers all in-app labels, actions and prompts.</string>
     <string name="language_english">English</string>
     <string name="language_chinese">简体中文</string>
-    <string name="master_title">Gesture engine</string>
+    <string name="master_title">Gesture controls</string>
     <string name="master_description">Pause every gesture without losing any bindings.</string>
     <string name="master_switch">Enable all configured gestures</string>
     <string name="section_edge_title">Core edge gestures</string>
-    <string name="section_edge_description">Safe defaults only enable left and right inward swipes for Back. Enable other gestures as needed.</string>
+    <string name="section_edge_description">Defaults enable inward swipes for Back. With Android gesture navigation, start custom side swipes in the middle 200 dp of the edge; native Back remains above and below. Other gestures are optional.</string>
     <string name="section_advanced_title">Advanced gestures</string>
     <string name="section_advanced_description">Disabled by default. Diagonal gestures require both horizontal and vertical travel to reduce accidental triggers.</string>
     <string name="section_top_title">Top-corner gestures</string>
@@ -40,7 +41,7 @@
     <string name="reset_confirm">Reset</string>
     <string name="cancel">Cancel</string>
     <string name="reset_done">Safe defaults restored</string>
-    <string name="footer">Pixel Gesture 0.6.0 · Local-only · Android 11+\n36 gesture triggers · Advanced groups load only when opened</string>
+
     <string name="choose_app">Choose an app</string>
     <string name="loading_apps">Loading apps…</string>
     <string name="selected_app_format">Selected: %1$s · Tap to change</string>
@@ -53,7 +54,7 @@
     <string name="action_screenshot">Screenshot</string><string name="action_lock">Lock screen</string><string name="action_power_dialog">Power menu</string>
     <string name="action_camera">Open camera</string><string name="action_open_app">Open app</string><string name="action_settings">System settings</string>
     <string-array name="action_labels"><item>@string/action_none</item><item>@string/action_back</item><item>@string/action_home</item><item>@string/action_recents</item><item>@string/action_notifications</item><item>@string/action_quick_settings</item><item>@string/action_screenshot</item><item>@string/action_lock</item><item>@string/action_power_dialog</item><item>@string/action_camera</item><item>@string/action_open_app</item><item>@string/action_settings</item></string-array>
-    <string name="g_left_in">Left edge inward swipe</string><string name="d_left_in">Swipe right from the left edge</string>
+    <string name="g_left_in">Left edge inward swipe</string><string name="d_left_in">Swipe right from the middle of the left edge</string>
     <string name="g_left_up">Left edge swipe up</string><string name="d_left_up">Swipe up along the left edge</string>
     <string name="g_left_down">Left edge swipe down</string><string name="d_left_down">Swipe down along the left edge</string>
     <string name="g_left_double">Left edge double tap</string><string name="d_left_double">Quickly tap the left edge twice</string>
@@ -61,7 +62,7 @@
     <string name="g_left_long">Left edge long press</string><string name="d_left_long">Hold the left edge for about 0.55 seconds</string>
     <string name="g_left_in_up">Left edge diagonal up</string><string name="d_left_in_up">Swipe toward the upper-right from the left edge</string>
     <string name="g_left_in_down">Left edge diagonal down</string><string name="d_left_in_down">Swipe toward the lower-right from the left edge</string>
-    <string name="g_right_in">Right edge inward swipe</string><string name="d_right_in">Swipe left from the right edge</string>
+    <string name="g_right_in">Right edge inward swipe</string><string name="d_right_in">Swipe left from the middle of the right edge</string>
     <string name="g_right_up">Right edge swipe up</string><string name="d_right_up">Swipe up along the right edge</string>
     <string name="g_right_down">Right edge swipe down</string><string name="d_right_down">Swipe down along the right edge</string>
     <string name="g_right_double">Right edge double tap</string><string name="d_right_double">Quickly tap the right edge twice</string>
@@ -89,4 +90,93 @@
     <string name="g_volume_down_double">Double-press Volume Down</string><string name="d_volume_down_double">Quickly press Volume Down twice</string>
     <string name="g_volume_up_long">Long-press Volume Up</string><string name="d_volume_up_long">Hold Volume Up for about 0.65 seconds</string>
     <string name="g_volume_down_long">Long-press Volume Down</string><string name="d_volume_down_long">Hold Volume Down for about 0.65 seconds</string>
+    <string name="backup_title">Backup and restore</string>
+    <string name="backup_description">Save a local file to move your bindings to another device. It contains selected app package names. Choose on-device storage; a cloud document provider may upload the file. Restore replaces settings and pauses gestures until you review and resume them.</string>
+    <string name="backup_export">Export settings</string>
+    <string name="backup_import">Restore settings</string>
+    <string name="backup_export_done">Settings exported. Keep the file private.</string>
+    <string name="backup_import_done">Settings restored. Gestures are paused; review bindings before resuming.</string>
+    <string name="backup_failed">Could not read or write a valid backup. Check the file and storage access.</string>
+    <string name="backup_no_picker">No document picker is available on this device.</string>
+    <string name="backup_confirm_title">Replace your settings?</string>
+    <string name="backup_confirm_message">This replaces all gesture bindings, edge width, haptics and language. Gestures will stay paused. Accessibility permission is not changed. Cancel to keep your current settings.</string>
+
+    <string name="profiles_description">Keep up to eight named setups. Saving and switching require the profiles entitlement. Your current gestures remain free.</string>
+
+    <string name="profiles_buy">Load a test product first</string>
+
+    <string name="profiles_save">Save current setup</string>
+    <string name="profiles_loading">Checking access and loading products…</string>
+    <string name="profiles_active">Profiles access verified.</string>
+    <string name="profiles_purchasing">Test purchase in progress…</string>
+    <string name="profiles_restoring">Restoring and checking access…</string>
+    <string name="profiles_cancelled">Purchase cancelled. No access was granted.</string>
+    <string name="profiles_error">Request failed. Refresh or restore to try again.</string>
+    <string name="profiles_no_products">No product is available. Check the test offering configuration.</string>
+    <string name="profiles_locked">Profiles are locked. No active profiles entitlement was returned.</string>
+    <string name="profiles_unconfigured">Development build: RevenueCat is not configured. No purchase or unlock is possible yet.</string>
+    <string name="profiles_product">%1$s · %2$s (Test Store)</string>
+    <string name="profiles_empty">No saved profiles yet.</string>
+    <string name="profiles_switch">Switch to %1$s</string>
+    <string name="profiles_switch_help">Replace current bindings with this profile? Gestures will be paused. Resume them yourself when ready.</string>
+    <string name="profiles_delete">Delete %1$s</string>
+    <string name="profiles_delete_help">Delete this local profile? Your current bindings will stay as they are.</string>
+    <string name="profiles_name">Unique name, 1–32 characters</string>
+    <string name="profiles_saved">Profile saved locally.</string>
+    <string name="profiles_local_error">Could not save or switch. Check access, use a unique name, or delete a slot if all eight are full.</string>
+    <string name="ui_tab_home">Home</string>
+    <string name="ui_tab_gestures">Gestures</string>
+    <string name="ui_tab_profiles">Profiles</string>
+
+
+
+
+
+
+    <string name="ui_edit_gestures">Edit gestures</string>
+    <string name="ui_back_gestures">Back to gestures</string>
+    <string name="ui_editor_eyebrow">GESTURE / EDIT</string>
+    <string name="ui_editor_title">One move. Your action.</string>
+    <string name="ui_editor_subtitle">Changes save automatically on this device.</string>
+    <string name="ui_input_note">A little room for system gestures</string>
+    <string name="ui_input_note_help">With gesture navigation, start side swipes in the middle 200 dp of the edge. System Back keeps the areas above and below. Other triggers may overlap controls; enable only what you need.</string>
+    <string name="ui_gestures_eyebrow">BINDINGS / ON DEVICE</string>
+    <string name="ui_gestures_title">Find your flow.</string>
+    <string name="ui_gestures_subtitle">Choose a trigger, then give it an action.</string>
+    <string name="ui_profiles_eyebrow">SETUPS / LOCAL STORAGE</string>
+    <string name="ui_profiles_title">Keep your favorite setups.</string>
+    <string name="ui_profiles_subtitle">Named profiles and portable backups.</string>
+    <string name="ui_device_access">DEVICE ACCESS</string>
+    <string name="ui_service_help">Enable accessibility yourself to run gestures across apps. You can turn it off in system settings at any time.</string>
+    <string name="ui_enable_service">Set up accessibility</string>
+    <string name="ui_manage_service">Manage accessibility</string>
+    <string name="ui_permission_help">About this permission</string>
+    <string name="ui_hide_help">Hide permission details</string>
+    <string name="ui_status_off">Accessibility is off.</string>
+    <string name="ui_status_paused">Gestures are paused.</string>
+    <string name="ui_status_on">Your gestures are on.</string>
+    <string name="ui_binding_on">On · %1$s</string>
+    <string name="ui_binding_off">Off · %1$s</string>
+    <string name="ui_edit_binding">Edit binding</string>
+    <string name="ui_enable_binding">Enable %1$s</string>
+    <string name="ui_footer">Android 11+ · Gesture settings stay on device</string>
+    <string name="ui_refresh">Refresh access</string>
+    <string name="ui_restore">Restore purchases</string>
+    <string name="ui_saved_profiles">Saved profiles</string>
+    <string name="ui_no_profiles_hint">Save a named setup when profile access is verified. Your current gestures stay free.</string>
+    <string name="ui_practice_kicker">Your gestures. On device.</string>
+    <string name="ui_home_master">Gestures</string>
+    <string name="ui_practice_title">Try an edge swipe.</string>
+    <string name="ui_practice_scope">App practice · Recent apps example · No system action</string>
+    <string name="ui_practice_hint">Start at the highlighted left edge and swipe inward.</string>
+    <string name="ui_practice_swiped">Swipe recognized · App preview only</string>
+    <string name="ui_practice_shown">Preview shown · App preview only</string>
+    <string name="ui_practice_play">Show preview</string>
+    <string name="ui_practice_reset">Try again</string>
+    <string name="ui_home_settings">Settings &amp; permissions</string>
+    <string name="theme_title">Appearance</string>
+    <string name="theme_description">Choose an app theme. This does not change the device theme or gesture bindings.</string>
+    <string name="theme_system">Follow system</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
 </resources>

@@ -2,26 +2,47 @@ plugins {
     id "com.android.application"
 }
 
+def testSettings = new Properties()
+def testSettingsFile = rootProject.file("rc-test.properties")
+if (testSettingsFile.exists()) testSettingsFile.withInputStream { testSettings.load(it) }
+def testSdkKey = testSettings.getProperty("sdkKey", "")
+if (testSdkKey && !(testSdkKey ==~ /test_[A-Za-z0-9_-]+/)) {
+    throw new GradleException("Only a public Test Store key is allowed in this project")
+}
+
 android {
     namespace "com.pixelgesture"
     compileSdk 33
-    buildToolsVersion "33.0.2"
+    buildToolsVersion "34.0.0"
 
     defaultConfig {
-        applicationId "com.pixelgesture"
+        applicationId "com.pixelgesture.nextgen"
         minSdk 30
         targetSdk 33
-        versionCode 7
-        versionName "0.6.0"
+        versionCode 9
+        versionName "0.6.2-nextgen-dev"
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "RC_TEST_KEY", "\"${testSdkKey}\""
+        }
         release {
+            buildConfigField "String", "RC_TEST_KEY", '""'
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
+
+    // Both bundled languages must remain available after an in-app language change.
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
+    buildFeatures { buildConfig true }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -30,5 +51,8 @@ android {
 }
 
 dependencies {
+    debugImplementation "com.revenuecat.purchases:purchases:9.9.0"
+    // SDK 9.9.0 success callbacks use Dispatchers.Main, also in Java apps.
+    debugImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     testImplementation "junit:junit:4.13.2"
 }

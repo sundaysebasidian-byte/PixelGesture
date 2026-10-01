@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Pin the effective Build Tools 34.0.0 requirement in the app and CI instead of the ignored 33.0.2 declaration.
+
+- Add local configuration export/restore with bounded version/field validation, confirmation and paused restoration.
+- Ignore canceled, orphan and repeated volume events; clear pending timing on interruption and binding changes.
+- Add backup/migration and hardware-timing regression tests plus a download-free JVM test runner.
+- Clarify installation signatures, permission boundaries and backup privacy.
+
 All notable changes are documented here. The project follows semantic versioning from 0.6.0 onward.
 
 ## [Unreleased]

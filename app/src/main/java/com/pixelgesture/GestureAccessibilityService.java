@@ -32,12 +32,12 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Collections;
 
 /** Global gesture engine. It uses a narrow accessibility overlay instead of reading app content. */
 public class GestureAccessibilityService extends AccessibilityService implements SensorEventListener {
     private static final long DOUBLE_TAP_MS = 320L;
     private static final long LONG_PRESS_MS = 550L;
-    private static final long VOLUME_DOUBLE_MS = 360L;
     private static final long VOLUME_LONG_MS = 650L;
     private static final long SHAKE_COOLDOWN_MS = 1000L;
     private static final float SWIPE_MIN_DP = 56f;
@@ -48,32 +48,21 @@ public class GestureAccessibilityService extends AccessibilityService implements
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private boolean shakeRegistered;
+    private boolean serviceConnected;
     private long lastShakeAt;
     private float lastAcceleration;
-    private boolean volumeUpPressed;
-    private boolean volumeDownPressed;
-    private boolean volumeChordTriggered;
-    private long volumeUpPressedAt;
-    private long volumeDownPressedAt;
-    private long lastVolumeUpTapAt;
-    private long lastVolumeDownTapAt;
-    private boolean volumeUpLongTriggered;
-    private boolean volumeDownLongTriggered;
+    private final VolumeGestureState volumeState = new VolumeGestureState();
     private final Handler keyHandler = new Handler(Looper.getMainLooper());
-    private final Runnable volumeUpLongRunnable = () -> {
-        if (volumeUpPressed && !volumeChordTriggered && isEnabled(AppConfig.VOLUME_UP_LONG)) {
-            volumeUpLongTriggered = true;
-            lastVolumeUpTapAt = 0L;
-            triggerGesture(AppConfig.VOLUME_UP_LONG);
+    private final Runnable volumeUpLongRunnable = () -> triggerVolumeLong(true);
+    private final Runnable volumeDownLongRunnable = () -> triggerVolumeLong(false);
+
+    private void triggerVolumeLong(boolean up) {
+        String key = up ? AppConfig.VOLUME_UP_LONG : AppConfig.VOLUME_DOWN_LONG;
+        if (isEnabled(key)) {
+            String gesture = volumeState.longPress(up);
+            if (gesture != null) triggerGesture(gesture);
         }
-    };
-    private final Runnable volumeDownLongRunnable = () -> {
-        if (volumeDownPressed && !volumeChordTriggered && isEnabled(AppConfig.VOLUME_DOWN_LONG)) {
-            volumeDownLongTriggered = true;
-            lastVolumeDownTapAt = 0L;
-            triggerGesture(AppConfig.VOLUME_DOWN_LONG);
-        }
-    };
+    }
     private android.content.SharedPreferences.OnSharedPreferenceChangeListener preferenceListener;
 
     @Override
@@ -84,6 +73,8 @@ public class GestureAccessibilityService extends AccessibilityService implements
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
+        releaseServiceResources();
+        serviceConnected = true;
         prefs = getSharedPreferences(AppConfig.PREFS, MODE_PRIVATE);
         AppConfig.ensureDefaults(prefs);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -96,6 +87,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
     }
 
     private void onPreferenceChanged(String key) {
+        if (!serviceConnected) return;
         if (AppConfig.MASTER_ENABLED.equals(key)) {
             refreshOverlays(false);
             updateShakeSensor();
@@ -108,6 +100,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
         }
         String gesture = AppConfig.gestureForPreferenceKey(key);
         if (gesture == null) return;
+        if (AppConfig.contains(AppConfig.HARDWARE_GESTURES, gesture)) onInterrupt();
         if (AppConfig.SHAKE.equals(gesture)) updateShakeSensor();
         if (AppConfig.contains(AppConfig.LEFT_GESTURES, gesture)
                 || AppConfig.contains(AppConfig.RIGHT_GESTURES, gesture)
@@ -119,7 +112,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
     }
 
     private void refreshOverlays(boolean forceRecreate) {
-        if (windowManager == null || prefs == null) return;
+        if (!serviceConnected || windowManager == null || prefs == null) return;
         if (forceRecreate) removeAllOverlays();
         boolean master = prefs.getBoolean(AppConfig.MASTER_ENABLED, true);
         syncOverlay("left", EdgeGestureView.SIDE_LEFT, master && anyEnabled(AppConfig.LEFT_GESTURES));
@@ -148,30 +141,45 @@ public class GestureAccessibilityService extends AccessibilityService implements
         params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                 | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
         int topInset = 0;
         int bottomInset = 0;
+        int leftInset = 0;
+        int rightInset = 0;
         try {
             WindowMetrics metrics = windowManager.getCurrentWindowMetrics();
             Rect bounds = metrics.getBounds();
-            Insets bars = metrics.getWindowInsets().getInsetsIgnoringVisibility(WindowInsets.Type.systemBars());
+            Insets bars = metrics.getWindowInsets().getInsetsIgnoringVisibility(
+                    WindowInsets.Type.systemBars() | WindowInsets.Type.displayCutout());
             screenHeight = bounds.height();
+            screenWidth = bounds.width();
             topInset = bars.top;
             bottomInset = bars.bottom;
+            leftInset = bars.left;
+            rightInset = bars.right;
         } catch (Exception ignored) { }
+        int availableWidth = OverlayGeometry.available(screenWidth, leftInset, rightInset);
+        int availableHeight = OverlayGeometry.available(screenHeight, topInset, bottomInset);
+        if (availableWidth == 0 || availableHeight <= dp(24)) return;
         if (side == EdgeGestureView.SIDE_BOTTOM) {
-            params.gravity = Gravity.BOTTOM;
-            params.width = WindowManager.LayoutParams.MATCH_PARENT;
-            params.height = width;
+            params.gravity = Gravity.BOTTOM | Gravity.LEFT;
+            params.width = availableWidth;
+            params.height = Math.min(width, OverlayGeometry.sideHeight(screenHeight,
+                    topInset, bottomInset, Math.max(0, dp(8) - bottomInset)));
+            params.x = leftInset;
             params.y = Math.max(bottomInset, dp(8));
         } else if (side == EdgeGestureView.SIDE_TOP_LEFT || side == EdgeGestureView.SIDE_TOP_RIGHT) {
             params.gravity = (side == EdgeGestureView.SIDE_TOP_LEFT ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP;
-            params.width = dp(88);
-            params.height = width;
+            params.width = Math.min(dp(88), availableWidth);
+            params.height = Math.min(width, OverlayGeometry.sideHeight(screenHeight,
+                    topInset, bottomInset, dp(4)));
+            params.x = side == EdgeGestureView.SIDE_TOP_LEFT ? leftInset : rightInset;
             params.y = topInset + dp(4);
         } else {
             params.gravity = (side == EdgeGestureView.SIDE_LEFT ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP;
-            params.width = width;
-            params.height = Math.max(dp(240), screenHeight - topInset - bottomInset - dp(24));
+            params.width = Math.min(width, availableWidth);
+            params.height = OverlayGeometry.sideHeight(screenHeight, topInset, bottomInset, dp(24));
+            params.x = side == EdgeGestureView.SIDE_LEFT ? leftInset : rightInset;
             params.y = topInset + dp(12);
         }
         try {
@@ -190,7 +198,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
     }
 
     private boolean isEnabled(String key) {
-        return prefs.getBoolean(AppConfig.enabledKey(key), false)
+        return prefs != null && prefs.getBoolean(AppConfig.enabledKey(key), false)
                 && !AppConfig.NONE.equals(prefs.getString(key, AppConfig.NONE));
     }
 
@@ -203,7 +211,8 @@ public class GestureAccessibilityService extends AccessibilityService implements
 
     private void updateShakeSensor() {
         if (sensorManager == null || accelerometer == null) return;
-        boolean shouldRegister = prefs.getBoolean(AppConfig.MASTER_ENABLED, true) && isEnabled(AppConfig.SHAKE);
+        boolean shouldRegister = serviceConnected && prefs != null
+                && prefs.getBoolean(AppConfig.MASTER_ENABLED, true) && isEnabled(AppConfig.SHAKE);
         if (shouldRegister && !shakeRegistered) {
             lastAcceleration = 9.8f;
             // UI-rate sampling is responsive enough for shake detection and uses less power
@@ -216,7 +225,8 @@ public class GestureAccessibilityService extends AccessibilityService implements
     }
 
     public void triggerGesture(String key) {
-        if (!prefs.getBoolean(AppConfig.MASTER_ENABLED, true) || !isEnabled(key)) return;
+        if (!serviceConnected || prefs == null
+                || !prefs.getBoolean(AppConfig.MASTER_ENABLED, true) || !isEnabled(key)) return;
         performAction(key, prefs.getString(key, AppConfig.NONE));
     }
 
@@ -235,14 +245,10 @@ public class GestureAccessibilityService extends AccessibilityService implements
                 case AppConfig.QUICK_SETTINGS:
                     performed = performGlobalAction(GLOBAL_ACTION_QUICK_SETTINGS); break;
                 case AppConfig.SCREENSHOT:
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                        performed = performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
-                    }
+                    performed = performGlobalAction(GLOBAL_ACTION_TAKE_SCREENSHOT);
                     break;
                 case AppConfig.LOCK:
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        performed = performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);
-                    }
+                    performed = performGlobalAction(GLOBAL_ACTION_LOCK_SCREEN);
                     break;
                 case AppConfig.POWER_DIALOG:
                     performed = performGlobalAction(GLOBAL_ACTION_POWER_DIALOG); break;
@@ -298,7 +304,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
 
     @Override
     public boolean onKeyEvent(KeyEvent event) {
-        if (prefs == null || !prefs.getBoolean(AppConfig.MASTER_ENABLED, true)
+        if (!serviceConnected || prefs == null || !prefs.getBoolean(AppConfig.MASTER_ENABLED, true)
                 || !anyEnabled(AppConfig.VOLUME_CHORD, AppConfig.VOLUME_UP_DOUBLE,
                 AppConfig.VOLUME_DOWN_DOUBLE, AppConfig.VOLUME_UP_LONG, AppConfig.VOLUME_DOWN_LONG)) return false;
         int code = event.getKeyCode();
@@ -306,58 +312,26 @@ public class GestureAccessibilityService extends AccessibilityService implements
         boolean interceptKey = code == KeyEvent.KEYCODE_VOLUME_UP
                 ? anyEnabled(AppConfig.VOLUME_UP_DOUBLE, AppConfig.VOLUME_UP_LONG)
                 : anyEnabled(AppConfig.VOLUME_DOWN_DOUBLE, AppConfig.VOLUME_DOWN_LONG);
+        boolean up = code == KeyEvent.KEYCODE_VOLUME_UP;
+        Runnable longRunnable = up ? volumeUpLongRunnable : volumeDownLongRunnable;
         long now = SystemClock.uptimeMillis();
-        if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
-            if (code == KeyEvent.KEYCODE_VOLUME_UP) {
-                volumeUpPressed = true;
-                volumeUpPressedAt = now;
-                volumeUpLongTriggered = false;
-                if (isEnabled(AppConfig.VOLUME_UP_LONG)) {
-                    keyHandler.postDelayed(volumeUpLongRunnable, VOLUME_LONG_MS);
-                }
-            } else {
-                volumeDownPressed = true;
-                volumeDownPressedAt = now;
-                volumeDownLongTriggered = false;
-                if (isEnabled(AppConfig.VOLUME_DOWN_LONG)) {
-                    keyHandler.postDelayed(volumeDownLongRunnable, VOLUME_LONG_MS);
-                }
-            }
-            if (isEnabled(AppConfig.VOLUME_CHORD) && volumeUpPressed && volumeDownPressed && !volumeChordTriggered
-                    && Math.abs(volumeUpPressedAt - volumeDownPressedAt) <= 500L) {
-                volumeChordTriggered = true;
-                lastVolumeUpTapAt = 0L;
-                lastVolumeDownTapAt = 0L;
+        if (event.isCanceled()) {
+            onInterrupt();
+        } else if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0
+                && !volumeState.isPressed(up)) {
+            String gesture = volumeState.press(up, now, isEnabled(AppConfig.VOLUME_CHORD));
+            if (gesture != null) {
                 keyHandler.removeCallbacks(volumeUpLongRunnable);
                 keyHandler.removeCallbacks(volumeDownLongRunnable);
-                triggerGesture(AppConfig.VOLUME_CHORD);
+                triggerGesture(gesture);
+            } else if (isEnabled(up ? AppConfig.VOLUME_UP_LONG : AppConfig.VOLUME_DOWN_LONG)) {
+                keyHandler.postDelayed(longRunnable, VOLUME_LONG_MS);
             }
         } else if (event.getAction() == KeyEvent.ACTION_UP) {
-            boolean chordWasTriggered = volumeChordTriggered;
-            if (code == KeyEvent.KEYCODE_VOLUME_UP) {
-                volumeUpPressed = false;
-                keyHandler.removeCallbacks(volumeUpLongRunnable);
-                if (!chordWasTriggered && !volumeUpLongTriggered && isEnabled(AppConfig.VOLUME_UP_DOUBLE)) {
-                    if (now - lastVolumeUpTapAt <= VOLUME_DOUBLE_MS) {
-                        lastVolumeUpTapAt = 0L;
-                        triggerGesture(AppConfig.VOLUME_UP_DOUBLE);
-                    } else {
-                        lastVolumeUpTapAt = now;
-                    }
-                }
-            } else {
-                volumeDownPressed = false;
-                keyHandler.removeCallbacks(volumeDownLongRunnable);
-                if (!chordWasTriggered && !volumeDownLongTriggered && isEnabled(AppConfig.VOLUME_DOWN_DOUBLE)) {
-                    if (now - lastVolumeDownTapAt <= VOLUME_DOUBLE_MS) {
-                        lastVolumeDownTapAt = 0L;
-                        triggerGesture(AppConfig.VOLUME_DOWN_DOUBLE);
-                    } else {
-                        lastVolumeDownTapAt = now;
-                    }
-                }
-            }
-            if (!volumeUpPressed && !volumeDownPressed) volumeChordTriggered = false;
+            keyHandler.removeCallbacks(longRunnable);
+            String gesture = volumeState.release(up, now,
+                    isEnabled(up ? AppConfig.VOLUME_UP_DOUBLE : AppConfig.VOLUME_DOWN_DOUBLE));
+            if (gesture != null) triggerGesture(gesture);
         }
         return interceptKey;
     }
@@ -370,7 +344,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() != Sensor.TYPE_ACCELEROMETER || !isEnabled(AppConfig.SHAKE)) return;
+        if (!serviceConnected || event.sensor.getType() != Sensor.TYPE_ACCELEROMETER || !isEnabled(AppConfig.SHAKE)) return;
         float x = event.values[0], y = event.values[1], z = event.values[2];
         float magnitude = (float) Math.sqrt(x * x + y * y + z * z);
         float delta = Math.abs(magnitude - lastAcceleration);
@@ -391,23 +365,33 @@ public class GestureAccessibilityService extends AccessibilityService implements
     public void onInterrupt() {
         keyHandler.removeCallbacks(volumeUpLongRunnable);
         keyHandler.removeCallbacks(volumeDownLongRunnable);
-        volumeUpPressed = false;
-        volumeDownPressed = false;
-        volumeChordTriggered = false;
-        volumeUpLongTriggered = false;
-        volumeDownLongTriggered = false;
-        lastVolumeUpTapAt = 0L;
-        lastVolumeDownTapAt = 0L;
+        volumeState.reset();
+        for (EdgeGestureView view : overlays.values()) view.cancelPendingGesture();
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        releaseServiceResources();
+        return super.onUnbind(intent);
+    }
+
+    private void releaseServiceResources() {
+        serviceConnected = false;
+        if (prefs != null && preferenceListener != null) prefs.unregisterOnSharedPreferenceChangeListener(preferenceListener);
+        preferenceListener = null;
+        if (sensorManager != null && shakeRegistered) sensorManager.unregisterListener(this);
+        shakeRegistered = false;
+        onInterrupt();
+        removeAllOverlays();
+        windowManager = null;
+        sensorManager = null;
+        accelerometer = null;
+        prefs = null;
     }
 
     @Override
     public void onDestroy() {
-        if (prefs != null && preferenceListener != null) prefs.unregisterOnSharedPreferenceChangeListener(preferenceListener);
-        if (sensorManager != null && shakeRegistered) sensorManager.unregisterListener(this);
-        shakeRegistered = false;
-        keyHandler.removeCallbacks(volumeUpLongRunnable);
-        keyHandler.removeCallbacks(volumeDownLongRunnable);
-        removeAllOverlays();
+        releaseServiceResources();
         super.onDestroy();
     }
 
@@ -426,6 +410,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
         private long lastTapAt;
         private int tapCount;
         private boolean longTriggered;
+        private boolean touchActive;
         private final Runnable longPressRunnable;
         private final Runnable tapRunnable;
 
@@ -435,7 +420,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
             this.side = side;
             this.longPressRunnable = () -> {
                 String key = longPressKey();
-                if (!this.longTriggered && this.service.isEnabled(key)) {
+                if (this.touchActive && !this.longTriggered && this.service.isEnabled(key)) {
                     this.longTriggered = true;
                     this.service.triggerGesture(key);
                 }
@@ -452,6 +437,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
         public boolean onTouchEvent(MotionEvent event) {
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
+                    touchActive = true;
                     downX = event.getRawX();
                     downY = event.getRawY();
                     downAt = SystemClock.uptimeMillis();
@@ -459,11 +445,14 @@ public class GestureAccessibilityService extends AccessibilityService implements
                     postDelayed(longPressRunnable, LONG_PRESS_MS);
                     return true;
                 case MotionEvent.ACTION_MOVE:
+                    if (!touchActive) return true;
                     if (Math.abs(event.getRawX() - downX) > dp(24) || Math.abs(event.getRawY() - downY) > dp(24)) {
                         removeCallbacks(longPressRunnable);
                     }
                     return true;
                 case MotionEvent.ACTION_UP:
+                    if (!touchActive) return true;
+                    touchActive = false;
                     removeCallbacks(longPressRunnable);
                     if (longTriggered) return true;
                     float dx = event.getRawX() - downX;
@@ -471,6 +460,7 @@ public class GestureAccessibilityService extends AccessibilityService implements
                     long elapsed = SystemClock.uptimeMillis() - downAt;
                     float min = dp((int) SWIPE_MIN_DP);
                     if (Math.abs(dx) < dp(28) && Math.abs(dy) < dp(28) && elapsed < 450L) {
+                        performClick();
                         handleTap();
                         return true;
                     }
@@ -514,13 +504,18 @@ public class GestureAccessibilityService extends AccessibilityService implements
                     }
                     return true;
                 case MotionEvent.ACTION_CANCEL:
-                    removeCallbacks(longPressRunnable);
-                    resetTapSequence();
-                    longTriggered = false;
+                    cancelPendingGesture();
                     return true;
                 default:
                     return true;
             }
+        }
+
+        @Override
+        public boolean performClick() {
+            // Publish the standard click event without inventing a single-tap system action.
+            super.performClick();
+            return true;
         }
 
         private void handleTap() {
@@ -584,10 +579,29 @@ public class GestureAccessibilityService extends AccessibilityService implements
         }
 
         @Override
+        protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+            super.onSizeChanged(width, height, oldWidth, oldHeight);
+            if (isSideEdge()) {
+                // Android reserves the outer edge for Back. Keep the exclusion within
+                // its 200dp budget and preserve native Back above/below our trigger zone.
+                int zoneHeight = Math.min(height, dp(200));
+                int top = (height - zoneHeight) / 2;
+                setSystemGestureExclusionRects(Collections.singletonList(
+                        new Rect(0, top, width, top + zoneHeight)));
+            }
+        }
+
+        @Override
         protected void onDetachedFromWindow() {
-            removeCallbacks(longPressRunnable);
-            removeCallbacks(tapRunnable);
+            cancelPendingGesture();
             super.onDetachedFromWindow();
+        }
+
+        void cancelPendingGesture() {
+            touchActive = false;
+            removeCallbacks(longPressRunnable);
+            resetTapSequence();
+            longTriggered = false;
         }
     }
 }

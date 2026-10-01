@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pixel Gesture</string><string name="accessibility_description">识别已配置的边缘与硬件手势并执行系统动作；不会读取屏幕内容，也不联网。</string>
-    <string name="subtitle">把 Pixel 的边缘和硬件按键变成你的操作层</string><string name="service_status_title">服务状态</string><string name="checking">检查中…</string>
-    <string name="open_accessibility_settings">打开无障碍设置</string><string name="manage_accessibility_service">管理无障碍服务</string><string name="open_app_details">无法启用？打开应用详情</string>
+    <string name="app_name">PixelGesture NextGen Dev</string><string name="accessibility_description">识别已配置的边缘与硬件手势并执行系统动作；不会读取屏幕内容，也不联网。</string>
+    <string name="checking">检查中…</string>
+    <string name="open_app_details">无法启用？打开应用详情</string>
     <string name="restricted_settings_help">若系统显示“受限设置”，请打开应用详情，点击右上角菜单并允许受限设置，再返回启用服务。应用不读取屏幕内容，也不联网。</string>
-    <string name="service_enabled">已启用 · 手势热区正在运行</string><string name="service_disabled">未启用 · 请在系统设置中打开 Pixel Gesture</string>
+
     <string name="language_title">语言</string><string name="language_description">默认语言为英语；此选项覆盖应用内全部标签、动作和提示。</string><string name="language_english">English</string><string name="language_chinese">简体中文</string>
-    <string name="master_title">手势引擎</string><string name="master_description">暂停全部手势而不丢失任何绑定。</string><string name="master_switch">启用所有已配置手势</string>
-    <string name="section_edge_title">基础边缘手势</string><string name="section_edge_description">安全默认仅开启左右向内滑并映射为返回；其余手势按需开启。</string>
+    <string name="master_title">手势开关</string><string name="master_description">暂停全部手势而不丢失任何绑定。</string><string name="master_switch">启用所有已配置手势</string>
+    <string name="section_edge_title">基础边缘手势</string><string name="section_edge_description">默认仅开启向内滑并映射为返回。Android 手势导航下，请从侧边中间约 200 dp 范围开始自定义滑动；上下区域保留系统返回。其他手势按需开启。</string>
     <string name="section_advanced_title">进阶手势</string><string name="section_advanced_description">默认关闭；斜向手势需同时达到横向和纵向距离，以减少误触。</string>
     <string name="section_top_title">顶部角落手势</string><string name="section_top_description">默认关闭；热区位于状态栏下方，可能影响应用顶部按钮。</string>
     <string name="section_hardware_title">硬件触发器</string><string name="section_hardware_description">默认关闭；启用单个音量键手势后，该按键会优先执行手势而非调节音量。</string>
@@ -15,13 +15,102 @@
     <string name="show_section">展开</string><string name="hide_section">收起</string><string name="edge_width_format">热区宽度：%1$d dp</string><string name="haptic_feedback">动作完成后轻微震动</string>
     <string name="reset_title">安全重置</string><string name="reset_description">恢复安全默认设置，同时保留当前语言。</string><string name="reset_button">恢复安全默认设置</string>
     <string name="reset_confirm_title">重置手势设置？</string><string name="reset_confirm_message">所有手势动作和应用绑定都会重置，仅保留左右向内滑返回。</string><string name="reset_confirm">重置</string><string name="cancel">取消</string><string name="reset_done">已恢复安全默认设置</string>
-    <string name="footer">Pixel Gesture 0.6.0 · 纯本地 · Android 11+\n共 36 个触发手势 · 进阶分组按需加载</string>
+
     <string name="choose_app">选择要打开的应用</string><string name="loading_apps">正在加载应用…</string><string name="selected_app_format">已选择：%1$s · 点击更改</string><string name="selected_app_unavailable">原应用不可用 · 点击重新选择</string><string name="no_launchable_apps">没有找到可启动的应用</string><string name="choose_launchable_app">选择要打开的应用</string><string name="choose_app_first">请先在 Pixel Gesture 中选择可打开的应用</string>
     <string name="action_none">不执行</string><string name="action_back">返回</string><string name="action_home">主页</string><string name="action_recents">最近任务</string><string name="action_notifications">通知栏</string><string name="action_quick_settings">快捷设置</string><string name="action_screenshot">截图</string><string name="action_lock">锁屏</string><string name="action_power_dialog">电源菜单</string><string name="action_camera">打开相机</string><string name="action_open_app">打开应用</string><string name="action_settings">系统设置</string>
     <string-array name="action_labels"><item>@string/action_none</item><item>@string/action_back</item><item>@string/action_home</item><item>@string/action_recents</item><item>@string/action_notifications</item><item>@string/action_quick_settings</item><item>@string/action_screenshot</item><item>@string/action_lock</item><item>@string/action_power_dialog</item><item>@string/action_camera</item><item>@string/action_open_app</item><item>@string/action_settings</item></string-array>
-    <string name="g_left_in">左边缘向内滑</string><string name="d_left_in">从左边缘向右滑动</string><string name="g_left_up">左边缘上滑</string><string name="d_left_up">沿左边缘向上滑动</string><string name="g_left_down">左边缘下滑</string><string name="d_left_down">沿左边缘向下滑动</string><string name="g_left_double">左边缘双击</string><string name="d_left_double">快速点按左边缘两次</string><string name="g_left_triple">左边缘三击</string><string name="d_left_triple">快速点按左边缘三次</string><string name="g_left_long">左边缘长按</string><string name="d_left_long">按住左边缘约 0.55 秒</string><string name="g_left_in_up">左边缘斜向内上滑</string><string name="d_left_in_up">从左边缘向右上方滑动</string><string name="g_left_in_down">左边缘斜向内下滑</string><string name="d_left_in_down">从左边缘向右下方滑动</string>
-    <string name="g_right_in">右边缘向内滑</string><string name="d_right_in">从右边缘向左滑动</string><string name="g_right_up">右边缘上滑</string><string name="d_right_up">沿右边缘向上滑动</string><string name="g_right_down">右边缘下滑</string><string name="d_right_down">沿右边缘向下滑动</string><string name="g_right_double">右边缘双击</string><string name="d_right_double">快速点按右边缘两次</string><string name="g_right_triple">右边缘三击</string><string name="d_right_triple">快速点按右边缘三次</string><string name="g_right_long">右边缘长按</string><string name="d_right_long">按住右边缘约 0.55 秒</string><string name="g_right_in_up">右边缘斜向内上滑</string><string name="d_right_in_up">从右边缘向左上方滑动</string><string name="g_right_in_down">右边缘斜向内下滑</string><string name="d_right_in_down">从右边缘向左下方滑动</string>
+    <string name="g_left_in">左边缘向内滑</string><string name="d_left_in">从左边缘中间向右滑动</string><string name="g_left_up">左边缘上滑</string><string name="d_left_up">沿左边缘向上滑动</string><string name="g_left_down">左边缘下滑</string><string name="d_left_down">沿左边缘向下滑动</string><string name="g_left_double">左边缘双击</string><string name="d_left_double">快速点按左边缘两次</string><string name="g_left_triple">左边缘三击</string><string name="d_left_triple">快速点按左边缘三次</string><string name="g_left_long">左边缘长按</string><string name="d_left_long">按住左边缘约 0.55 秒</string><string name="g_left_in_up">左边缘斜向内上滑</string><string name="d_left_in_up">从左边缘向右上方滑动</string><string name="g_left_in_down">左边缘斜向内下滑</string><string name="d_left_in_down">从左边缘向右下方滑动</string>
+    <string name="g_right_in">右边缘向内滑</string><string name="d_right_in">从右边缘中间向左滑动</string><string name="g_right_up">右边缘上滑</string><string name="d_right_up">沿右边缘向上滑动</string><string name="g_right_down">右边缘下滑</string><string name="d_right_down">沿右边缘向下滑动</string><string name="g_right_double">右边缘双击</string><string name="d_right_double">快速点按右边缘两次</string><string name="g_right_triple">右边缘三击</string><string name="d_right_triple">快速点按右边缘三次</string><string name="g_right_long">右边缘长按</string><string name="d_right_long">按住右边缘约 0.55 秒</string><string name="g_right_in_up">右边缘斜向内上滑</string><string name="d_right_in_up">从右边缘向左上方滑动</string><string name="g_right_in_down">右边缘斜向内下滑</string><string name="d_right_in_down">从右边缘向左下方滑动</string>
     <string name="g_bottom_up">底部边缘上滑</string><string name="d_bottom_up">从底部热区向上滑动</string><string name="g_bottom_left">底部边缘向左滑</string><string name="d_bottom_left">从底部热区向左滑动</string><string name="g_bottom_right">底部边缘向右滑</string><string name="d_bottom_right">从底部热区向右滑动</string><string name="g_bottom_up_left">底部斜向左上滑</string><string name="d_bottom_up_left">从底部热区向左上方滑动</string><string name="g_bottom_up_right">底部斜向右上滑</string><string name="d_bottom_up_right">从底部热区向右上方滑动</string><string name="g_bottom_long">底部边缘长按</string><string name="d_bottom_long">按住底部热区约 0.55 秒</string><string name="g_bottom_double">底部边缘双击</string><string name="d_bottom_double">快速点按底部热区两次</string><string name="g_bottom_triple">底部边缘三击</string><string name="d_bottom_triple">快速点按底部热区三次</string>
     <string name="g_top_left_down">顶部左角下滑</string><string name="d_top_left_down">从状态栏下方左角向下滑动</string><string name="g_top_left_double">顶部左角双击</string><string name="d_top_left_double">快速点按顶部左角两次</string><string name="g_top_left_long">顶部左角长按</string><string name="d_top_left_long">按住顶部左角约 0.55 秒</string><string name="g_top_right_down">顶部右角下滑</string><string name="d_top_right_down">从状态栏下方右角向下滑动</string><string name="g_top_right_double">顶部右角双击</string><string name="d_top_right_double">快速点按顶部右角两次</string><string name="g_top_right_long">顶部右角长按</string><string name="d_top_right_long">按住顶部右角约 0.55 秒</string>
     <string name="g_shake">摇一摇</string><string name="d_shake">摇动 Pixel 触发动作</string><string name="g_volume_chord">同时按下音量键</string><string name="d_volume_chord">在约 0.5 秒内按下音量上/下键</string><string name="g_volume_up_double">双击音量上键</string><string name="d_volume_up_double">快速按下音量上键两次</string><string name="g_volume_down_double">双击音量下键</string><string name="d_volume_down_double">快速按下音量下键两次</string><string name="g_volume_up_long">长按音量上键</string><string name="d_volume_up_long">按住音量上键约 0.65 秒</string><string name="g_volume_down_long">长按音量下键</string><string name="d_volume_down_long">按住音量下键约 0.65 秒</string>
+    <string name="backup_title">备份与恢复</string>
+    <string name="backup_description">保存本地文件，将手势配置迁移到其他设备。文件包含所选应用包名，请选择设备本地存储；云端文件提供方可能上传文件。恢复会替换设置并暂停手势，请检查后再开启。</string>
+    <string name="backup_export">导出配置</string>
+    <string name="backup_import">恢复配置</string>
+    <string name="backup_export_done">配置已导出，请妥善保管文件。</string>
+    <string name="backup_import_done">配置已恢复，手势已暂停。请检查绑定后再开启。</string>
+    <string name="backup_failed">无法读取或写入有效备份，请检查文件和存储访问权限。</string>
+    <string name="backup_no_picker">设备上没有可用的文件选择器。</string>
+    <string name="backup_confirm_title">替换当前设置？</string>
+    <string name="backup_confirm_message">这将替换所有手势绑定、热区宽度、振动和语言设置，并暂停手势。无障碍授权不受影响，取消可保留当前设置。</string>
+
+    <string name="profiles_description">最多保存八个命名配置档，保存与切换需配置档权益。当前手势仍免费使用。</string>
+
+    <string name="profiles_buy">请先加载测试商品</string>
+
+    <string name="profiles_save">保存当前配置</string>
+    <string name="profiles_loading">正在核验权益并加载商品…</string>
+    <string name="profiles_active">已核验配置档权益。</string>
+    <string name="profiles_purchasing">正在进行测试购买…</string>
+    <string name="profiles_restoring">正在恢复并核验权益…</string>
+    <string name="profiles_cancelled">购买已取消，未授予权益。</string>
+    <string name="profiles_error">请求失败，请刷新或恢复后重试。</string>
+    <string name="profiles_no_products">暂无可用商品，请检查测试 Offering 配置。</string>
+    <string name="profiles_locked">配置档尚未解锁，未返回有效配置档权益。</string>
+    <string name="profiles_unconfigured">开发版本：RevenueCat 尚未配置，暂时无法购买或解锁。</string>
+    <string name="profiles_product">%1$s · %2$s（Test Store）</string>
+    <string name="profiles_empty">尚未保存配置档。</string>
+    <string name="profiles_switch">切换至 %1$s</string>
+    <string name="profiles_switch_help">用此配置档替换当前绑定？手势将暂停，请准备好后自行启用。</string>
+    <string name="profiles_delete">删除 %1$s</string>
+    <string name="profiles_delete_help">删除此本地配置档？当前绑定不变。</string>
+    <string name="profiles_name">唯一名称，1–32 个字符</string>
+    <string name="profiles_saved">配置档已保存到本地。</string>
+    <string name="profiles_local_error">保存或切换失败，请检查权益、使用唯一名称，或在八个槽位已满时删除一个配置档。</string>
+    <string name="ui_tab_home">首页</string>
+    <string name="ui_tab_gestures">手势</string>
+    <string name="ui_tab_profiles">配置</string>
+
+
+
+
+
+
+    <string name="ui_edit_gestures">编辑手势</string>
+    <string name="ui_back_gestures">返回手势列表</string>
+    <string name="ui_editor_eyebrow">手势 / 编辑</string>
+    <string name="ui_editor_title">一个手势，一个操作。</string>
+    <string name="ui_editor_subtitle">更改会自动保存到本机。</string>
+    <string name="ui_input_note">为系统手势留一点空间</string>
+    <string name="ui_input_note_help">使用手势导航时，请从侧边中间 200 dp 区域开始滑动。上、下两端仍供系统返回使用。其他触发区可能与应用控件重叠，按需开启即可。</string>
+    <string name="ui_gestures_eyebrow">操作绑定 / 本机</string>
+    <string name="ui_gestures_title">找到顺手的节奏。</string>
+    <string name="ui_gestures_subtitle">选择触发方式，设置对应操作。</string>
+    <string name="ui_profiles_eyebrow">配置方案 / 本地存储</string>
+    <string name="ui_profiles_title">留住喜欢的操作方案。</string>
+    <string name="ui_profiles_subtitle">命名配置档，也可备份迁移。</string>
+    <string name="ui_device_access">设备授权</string>
+    <string name="ui_service_help">由你在系统设置中开启无障碍服务，手势才能跨应用运行；随时可在系统设置中关闭。</string>
+    <string name="ui_enable_service">设置无障碍服务</string>
+    <string name="ui_manage_service">管理无障碍服务</string>
+    <string name="ui_permission_help">了解此权限</string>
+    <string name="ui_hide_help">收起权限说明</string>
+    <string name="ui_status_off">无障碍服务未开启。</string>
+    <string name="ui_status_paused">手势已暂停。</string>
+    <string name="ui_status_on">手势已开启。</string>
+    <string name="ui_binding_on">已开启 · %1$s</string>
+    <string name="ui_binding_off">已关闭 · %1$s</string>
+    <string name="ui_edit_binding">编辑操作绑定</string>
+    <string name="ui_enable_binding">开启%1$s</string>
+    <string name="ui_footer">Android 11+ · 手势设置保存在本机</string>
+    <string name="ui_refresh">刷新授权</string>
+    <string name="ui_restore">恢复购买</string>
+    <string name="ui_saved_profiles">已保存配置</string>
+    <string name="ui_no_profiles_hint">配置档授权验证后，即可保存命名方案。当前手势保持免费。</string>
+    <string name="ui_practice_kicker">你的手势，尽在本机。</string>
+    <string name="ui_home_master">手势开关</string>
+    <string name="ui_practice_title">滑一下，感受手势。</string>
+    <string name="ui_practice_scope">App 内练习 · 最近任务示例 · 不执行系统操作</string>
+    <string name="ui_practice_hint">从亮起的左边缘向内滑动。</string>
+    <string name="ui_practice_swiped">已识别滑动 · 仅 App 内预览</string>
+    <string name="ui_practice_shown">预览已显示 · 仅 App 内演示</string>
+    <string name="ui_practice_play">显示预览</string>
+    <string name="ui_practice_reset">再试一次</string>
+    <string name="ui_home_settings">设置与权限</string>
+    <string name="theme_title">外观</string>
+    <string name="theme_description">选择应用主题，不改变系统主题或手势配置。</string>
+    <string name="theme_system">跟随系统</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
 </resources>

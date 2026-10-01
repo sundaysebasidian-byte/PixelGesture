@@ -13,8 +13,8 @@ public final class AppConfig {
     public static final String LANGUAGE = "language";
     public static final String LANGUAGE_ENGLISH = "en";
     public static final String LANGUAGE_CHINESE = "zh";
-    private static final String CONFIG_VERSION = "config_version";
-    private static final int CURRENT_CONFIG_VERSION = 2;
+    static final String CONFIG_VERSION = "config_version";
+    static final int CURRENT_CONFIG_VERSION = 2;
 
     public static final String LEFT_IN = "left_in";
     public static final String LEFT_UP = "left_up";

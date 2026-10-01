@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="com.android.vending.BILLING" tools:node="remove" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" tools:node="remove" />
+    <application android:name="com.pixelgesture.NextGenApplication" android:usesCleartextTraffic="false" />
+</manifest>

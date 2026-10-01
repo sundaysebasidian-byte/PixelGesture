@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="pg_background">#101016</color>
-    <color name="pg_surface">#1E1B23</color>
-    <color name="pg_surface_variant">#2B2932</color>
-    <color name="pg_primary">#D0BCFF</color>
-    <color name="pg_on_primary">#381E72</color>
-    <color name="pg_on_surface">#E6E0E9</color>
-    <color name="pg_on_surface_variant">#CAC4D0</color>
-    <color name="pg_outline">#938F99</color>
-    <color name="pg_success">#B6F2C2</color>
+    <color name="pg_background">#F5F7F4</color>
+    <color name="pg_surface">#FFFFFF</color>
+    <color name="pg_surface_variant">#EEF3EE</color>
+    <color name="pg_primary">#21684B</color>
+    <color name="pg_on_primary">#FFFFFF</color>
+    <color name="pg_on_surface">#19271F</color>
+    <color name="pg_on_surface_variant">#52645B</color>
+    <color name="pg_outline">#DEE7DF</color>
+
 </resources>

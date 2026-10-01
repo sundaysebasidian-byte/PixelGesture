@@ -1,0 +1,8 @@
+<resources>
+    <string name="accessibility_description">识别已配置手势，不读取屏幕内容。此 NextGen debug 应用通过 RevenueCat 联网核验测试购买权益。</string>
+    <string name="restricted_settings_help">请自行审核 Android 无障碍权限。手势服务不读取屏幕内容；此 debug 应用通过 RevenueCat 联网核验 Test Store 购买权益。测试配置档无需启用无障碍。</string>
+
+    <string name="profiles_description">有效配置档权益可保存最多八套本地配置。此 debug 版本仅使用 RevenueCat Test Store，测试购买不会收取真实费用。</string>
+
+    <string name="profiles_restoring">正在重新核验此测试用户的权益…</string>
+</resources>

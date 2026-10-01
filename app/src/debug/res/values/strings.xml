@@ -1,0 +1,8 @@
+<resources>
+    <string name="accessibility_description">Recognizes configured gestures without reading screen content. This NextGen debug app uses RevenueCat networking for test purchase access.</string>
+    <string name="restricted_settings_help">Review Android’s accessibility permission yourself. The gesture service does not read screen content; this debug app uses RevenueCat networking for Test Store purchase access. Enabling accessibility is optional for profile testing.</string>
+
+    <string name="profiles_description">Save up to eight local setups with verified profiles access. This debug build uses RevenueCat Test Store only; test purchases do not charge real money.</string>
+
+    <string name="profiles_restoring">Rechecking this test customer’s access…</string>
+</resources>

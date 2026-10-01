@@ -30,7 +30,7 @@ public final class LanguageManager {
 
     public static void setLanguage(Context base, String language) {
         base.getSharedPreferences(AppConfig.PREFS, Context.MODE_PRIVATE)
-                .edit().putString(AppConfig.LANGUAGE, language).commit();
+                .edit().putString(AppConfig.LANGUAGE, language).apply();
         syncPlatformLocale(base, language);
     }
 
